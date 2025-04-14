@@ -5,15 +5,14 @@ export class Experiencia {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 100, nullable: false })
   titulo: string;
 
-  @Column()
+  @Column('varchar', { length: 100, nullable: false })
   descripcion: string;
 
-  @Column()
-  estudiantes: string;
+  @Column('date', { name: 'fecha' })
+  fecha: Date;
 
-  @Column()
-  docente: string;
+ 
 }

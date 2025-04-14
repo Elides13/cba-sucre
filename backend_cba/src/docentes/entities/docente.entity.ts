@@ -6,18 +6,18 @@ export class Docente {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  ci: string;
+  @Column('int', { nullable: false })
+  ci: number;
 
-  @Column()
+  @Column('varchar', { length: 50, nullable: false })
   nombres: string;
 
-  @Column()
+  @Column('varchar', { length: 50, nullable: false })
   apellidos: string;
 
-  @Column()
+  @Column('int', { nullable: false })
   telefono: number;
 
-  @Column()
+  @Column('varchar', { length: 100, nullable: false })
   direccion: string;
 }

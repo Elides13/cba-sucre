@@ -5,19 +5,19 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
       @PrimaryGeneratedColumn()
       id: number;
     
-      @Column()
-      ci: string;
+      @Column('int', { nullable: false })
+      ci: number;
     
-      @Column()
+      @Column('varchar', { length: 50, nullable: false })
       nombres: string;
     
-      @Column()
+      @Column('varchar', { length: 100, nullable: false })
       apellidos: string;
     
-      @Column()
-      fechaNacimiento: Date;
+      @Column({ name: 'fecha_Nacimiento' })
+      fecha_Nacimiento: Date;
 
-      @Column()
+      @Column('int', { nullable: false })
       telefono: number;
 
 

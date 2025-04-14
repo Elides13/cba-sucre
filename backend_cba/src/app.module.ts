@@ -5,11 +5,14 @@ import { ExperienciasModule } from './experiencias/experiencias.module';
 import { Experiencia } from './experiencias/entities/experiencia.entity'; // Asegúrate de importar la entidad correctamente
 import { EstudiantesModule } from './estudiantes/estudiantes.module';
 import { DocentesModule } from './docentes/docentes.module';
+import { MateriasModule } from './materias/materias.module';
 
 @Module({
   imports: [
+    
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
+      
       type: 'mysql',
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
@@ -23,6 +26,7 @@ import { DocentesModule } from './docentes/docentes.module';
     ExperienciasModule,
     EstudiantesModule,
     DocentesModule,
+    MateriasModule,
   ],
 })
 export class AppModule {}
