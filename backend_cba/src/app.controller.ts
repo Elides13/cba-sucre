@@ -6,7 +6,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getRoot(): string {
+    return '¡Bienvenido al backend del CBA Sucre!';
+    // O si prefieres usar el servicio:
+    // return this.appService.getHello();
   }
 }

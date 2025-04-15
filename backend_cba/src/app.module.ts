@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ExperienciasModule } from './experiencias/experiencias.module';
-import { Experiencia } from './experiencias/entities/experiencia.entity'; // Asegúrate de importar la entidad correctamente
+// import { Experiencia } from './experiencias/entities/experiencia.entity'; // Asegúrate de importar la entidad correctamente
 import { EstudiantesModule } from './estudiantes/estudiantes.module';
 import { DocentesModule } from './docentes/docentes.module';
 import { MateriasModule } from './materias/materias.module';
@@ -19,14 +21,17 @@ import { MateriasModule } from './materias/materias.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Experiencia], // Especificar las entidades manualmente si no usas autoLoadEntities
+      // entities: [Experiencia], // Especificar las entidades manualmente si no usas autoLoadEntities
       synchronize: true,
       logging: true,
+      
     }),
     ExperienciasModule,
     EstudiantesModule,
     DocentesModule,
     MateriasModule,
   ],
+  controllers: [AppController], // Asegúrate de que esto esté
+  providers: [AppService],
 })
 export class AppModule {}
