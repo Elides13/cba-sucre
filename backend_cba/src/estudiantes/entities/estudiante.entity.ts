@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Materia } from "src/materias/entities/materia.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
     @Entity('estudiantes')
     export class Estudiante {
@@ -20,6 +21,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
       @Column('int', { nullable: false })
       telefono: number;
 
+      @OneToOne(() => Materia, (materia) => materia.sigla)
+      materias: Materia[];
 
     }
     
