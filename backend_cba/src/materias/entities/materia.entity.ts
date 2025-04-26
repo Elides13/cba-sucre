@@ -1,25 +1,15 @@
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Estudiante } from '../../estudiantes/entities/estudiante.entity';
 
-import { Docente } from 'src/docentes/entities/docente.entity';
-import { Estudiante } from 'src/estudiantes/entities/estudiante.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
-
+@Entity('materias')
 export class Materia {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column('varchar', { length: 100, nullable: false })
-    sigla: number;
-  
-    @Column('varchar', { length: 100, nullable: false })
-    hora: Date;
-  
-    @Column('varchar', { length: 100, nullable: false })
-    aula: string;
+  @Column()
+  nombre!: string;
 
-    @OneToOne(() => Docente, (docente) => docente.ci)
-    docente: Docente;
-  
-    @ManyToOne(() => Estudiante, (estudiante) => estudiante.ci)
-    @JoinColumn({ name: 'id_estudianate', referencedColumnName: 'id' })
-    estudiante: Estudiante;
-    
-  }
+  @ManyToMany(() => Estudiante, (estudiante: Estudiante) => estudiante.materias) // Tipa el parámetro 'estudiante'
+  estudiantes!: Estudiante[];
+}
 

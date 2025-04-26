@@ -1,23 +1,22 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-
 @Entity('docentes')
 export class Docente {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column('int', { nullable: false })
-  ci: number;
+  ci!: number;
 
   @Column('varchar', { length: 50, nullable: false })
-  nombres: string;
+  nombres!: string;
 
   @Column('varchar', { length: 50, nullable: false })
-  apellidos: string;
+  apellidos!: string;
 
   @Column('int', { nullable: false })
-  telefono: number;
+  telefono!: number;
 
   @Column('varchar', { length: 100, nullable: false })
-  direccion: string;
+  direccion!: string;
 }
