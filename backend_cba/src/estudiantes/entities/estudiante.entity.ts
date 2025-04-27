@@ -15,8 +15,8 @@ export class Estudiante {
   @Column('varchar', { length: 100, nullable: false })
   apellidos!: string;
 
-  @Column({ name: 'fecha_Nacimiento' })
-  fecha_Nacimiento!: Date;
+  @Column('date',{ name: 'fecha_Nacimiento' })
+  fechaNacimiento!: Date;
 
   @Column('int', { nullable: false })
   telefono!: number;
