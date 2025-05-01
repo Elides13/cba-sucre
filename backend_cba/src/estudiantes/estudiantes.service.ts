@@ -1,54 +1,63 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEstudianteDto } from './dto/create-estudiante.dto';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto';
 import { Estudiante } from './entities/estudiante.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EstudiantesService {
-  constructor (
+  constructor(
     @InjectRepository(Estudiante)
-    private estudiantesRepository: Repository<Estudiante>,
-  ){}
-  async create(createEstudianteDto: CreateEstudianteDto):Promise<Estudiante> {
-    const existe=await this.estudiantesRepository.findOneBy({
-      ci: createEstudianteDto.ci.toString(),
+    private readonly estudianteRepository: Repository<Estudiante>, // Inyección del repositorio
+  ) {}
+
+  async create(createEstudianteDto: CreateEstudianteDto): Promise<Estudiante> {
+    const existe = await this.estudianteRepository.findOneBy({
+      ci: createEstudianteDto.ci,
       nombres: createEstudianteDto.nombres.trim(),
       apellidos: createEstudianteDto.apellidos.trim(),
-      fechaNacimiento: createEstudianteDto.fecha_Nacimiento,
-      telefono:createEstudianteDto.telefono.toString(),
+      telefono: createEstudianteDto.telefono,
     });
 
-    if(existe) throw new ConflictException('el estudiante ya existe');
+    if (existe) {
+      throw new ConflictException('El estudiante ya existe');
+    }
 
-    const estudiante=new Estudiante();
-    estudiante.ci=createEstudianteDto.ci;
-    estudiante.nombres=createEstudianteDto.nombres.trim();
-    estudiante.apellidos=createEstudianteDto.apellidos.trim();
-    estudiante.fechaNacimiento=createEstudianteDto.fecha_Nacimiento;
-    estudiante.telefono=createEstudianteDto.telefono;
-    return this.estudiantesRepository.save(estudiante);
+    return this.estudianteRepository.save({
+      ci: createEstudianteDto.ci,
+      nombre: createEstudianteDto.nombres.trim(),
+      apellido: createEstudianteDto.apellidos.trim(),
+      telefono: createEstudianteDto.telefono,
+    });
   }
 
-  async findAll():Promise<Estudiante[]> {
-    return this.estudiantesRepository.find();
+  async findAll(): Promise<Estudiante[]> {
+    return this.estudianteRepository.find();
   }
 
-  async findOne(id: number):Promise<Estudiante> {
-    const estudiante=await this.estudiantesRepository.findOneBy({id});
-    if(!estudiante)throw new ConflictException('el estudiante no existe');
+  async findOne(id: number): Promise<Estudiante> {
+    const estudiante = await this.estudianteRepository.findOneBy({ id });
+    if (!estudiante) {
+      throw new NotFoundException(`El estudiante con id ${id} no existe`);
+    }
     return estudiante;
   }
 
-  async update(id: number, updateEstudianteDto: UpdateEstudianteDto) {
-    const estudiante=await this.findOne(id);
-    const estudianteUpdate=Object.assign(estudiante,updateEstudianteDto);
-    return this.estudiantesRepository.save(estudianteUpdate);
+  async update(id: number, updateEstudianteDto: UpdateEstudianteDto): Promise<Estudiante> {
+    const estudiante = await this.estudianteRepository.findOneBy({ id });
+    if (!estudiante) {
+      throw new NotFoundException(`No existe el estudiante con id ${id}`);
+    }
+    const estudianteUpdate = Object.assign(estudiante, updateEstudianteDto);
+    return this.estudianteRepository.save(estudianteUpdate);
   }
 
-  async remove(id: number) {
-    const estudiante= await this.estudiantesRepository.findOne(id);
-    return this.estudiantesRepository.softRemove(estudiante);
+  async remove(id: number): Promise<void> {
+    const estudiante = await this.findOne(id);
+    const result = await this.estudianteRepository.delete(estudiante.id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`No se pudo eliminar el estudiante con id ${id}`);
+    }
   }
 }
-

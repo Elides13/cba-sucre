@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  OneToMany, 
+} from 'typeorm';
+
 import { Estudiante } from '../../estudiantes/entities/estudiante.entity';
+import { Docente } from '../../docentes/entities/docente.entity';
 
 @Entity('materias')
 export class Materia {
@@ -9,7 +17,11 @@ export class Materia {
   @Column()
   nombre!: string;
 
-  @ManyToMany(() => Estudiante, (estudiante: Estudiante) => estudiante.materias) // Tipa el parámetro 'estudiante'
+  // Muchos estudiantes pueden inscribirse a muchas materias
+  @ManyToMany(() => Estudiante, (estudiante: Estudiante) => estudiante.materias)
   estudiantes!: Estudiante[];
-}
 
+  // Una materia puede ser impartida por muchos docentes
+  @OneToMany(() => Docente, docente => docente.materia)
+  docentes!: Docente[];
+}

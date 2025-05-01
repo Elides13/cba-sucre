@@ -5,44 +5,43 @@ import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 
 async function bootstrap() {
-  // Carga variables de entorno
-  dotenv.config();
+  dotenv.config(); // Cargar variables de entorno
 
   const app = await NestFactory.create(AppModule);
 
-  // Configuración de CORS (más segura y flexible)
+  // Configuración de CORS
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Usa variable de entorno
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    credentials: true, // Si necesitas enviar cookies/tokens
-    maxAge: 86400 // Cache de CORS por 24 horas
+    credentials: true,
+    maxAge: 86400,
   });
 
-  // Validación global (para todos los DTOs)
+  // Validación global
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Elimina propiedades no decoradas en DTOs
-      forbidNonWhitelisted: true, // Rechaza requests con propiedades no permitidas
-      transform: true // Convierte tipos automáticamente (ej: string -> number)
-    })
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
   );
 
-  // Configuración de Swagger (API Documentation)
+  // Configuración de Swagger
   const config = new DocumentBuilder()
     .setTitle('API Docentes')
     .setDescription('Sistema de gestión de docentes')
     .setVersion('1.0')
-    .addBearerAuth() // Soporte para JWT
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document); // Endpoint: /api-docs
+  SwaggerModule.setup('api-docs', app, document);
 
-  // Puerto desde variables de entorno (con fallback)
+  // Puerto desde variables de entorno
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  
+
   console.log(`🚀 Servidor corriendo en: http://localhost:${port}`);
   console.log(`📄 Documentación API: http://localhost:${port}/api-docs`);
 }
