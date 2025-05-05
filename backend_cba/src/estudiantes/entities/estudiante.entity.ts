@@ -2,9 +2,11 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToOne, // Asegúrate de importar OneToOne
+  OneToOne,
+  OneToMany, // Asegúrate de importar OneToOne
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   JoinTable,
 } from 'typeorm';
 

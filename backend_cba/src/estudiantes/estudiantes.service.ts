@@ -13,23 +13,14 @@ export class EstudiantesService {
   ) {}
 
   async create(createEstudianteDto: CreateEstudianteDto): Promise<Estudiante> {
-    const existe = await this.estudianteRepository.findOneBy({
-      ci: createEstudianteDto.ci,
-      nombres: createEstudianteDto.nombres.trim(),
-      apellidos: createEstudianteDto.apellidos.trim(),
-      telefono: createEstudianteDto.telefono,
-    });
+    const estudiante = new Estudiante();
+    estudiante.ci = createEstudianteDto.ci;
+    estudiante.nombres = createEstudianteDto.nombres.trim(); // Asegúrate de que se proporcione un valor
+    estudiante.apellidos = createEstudianteDto.apellidos.trim();
+    estudiante.telefono = createEstudianteDto.telefono;
+    // estudiante.usuario = createEstudianteDto.usuario;
 
-    if (existe) {
-      throw new ConflictException('El estudiante ya existe');
-    }
-
-    return this.estudianteRepository.save({
-      ci: createEstudianteDto.ci,
-      nombre: createEstudianteDto.nombres.trim(),
-      apellido: createEstudianteDto.apellidos.trim(),
-      telefono: createEstudianteDto.telefono,
-    });
+    return this.estudianteRepository.save(estudiante);
   }
 
   async findAll(): Promise<Estudiante[]> {

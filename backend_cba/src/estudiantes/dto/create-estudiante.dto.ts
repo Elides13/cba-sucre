@@ -22,12 +22,12 @@ export class CreateEstudianteDto {
     @MinLength(2, { message: 'El campo apellido no debe ser menor a 2 caracteres' })
     readonly apellidos!: string;
 
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo apellido no debe ser vacío' })
-    @IsString({ message: 'El campo apellido debe ser de tipo cadena' })
-    @MaxLength(100, { message: 'El campo apellido no debe ser mayor a 100 caracteres' })
-    @MinLength(2, { message: 'El campo apellido no debe ser menor a 2 caracteres' })
-    readonly fecha_Nacimiento!: string;
+    // @ApiProperty()
+    // @IsNotEmpty({ message: 'El campo apellido no debe ser vacío' })
+    // @IsString({ message: 'El campo apellido debe ser de tipo cadena' })
+    // @MaxLength(100, { message: 'El campo apellido no debe ser mayor a 100 caracteres' })
+    // @MinLength(2, { message: 'El campo apellido no debe ser menor a 2 caracteres' })
+    // readonly fecha_Nacimiento!: string;
 
     @ApiProperty()
     @IsNotEmpty({ message: 'El campo telefono no debe ser vacío' })

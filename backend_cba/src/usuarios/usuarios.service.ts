@@ -27,11 +27,13 @@ export class UsuariosService {
     }
 
     // Crear el nuevo usuario
-    const usuario = new Usuario();
-    usuario.usuario = createUsuarioDto.usuario.trim();
-    usuario.clave = process.env.DEFAULT_PASSWORD || 'default_password'; // Asignar una contraseña predeterminada
-    usuario.email = createUsuarioDto.email.trim();
-    usuario.tipoUsuario = createUsuarioDto.tipoUsuario.trim();
+    const usuario = this.usuariosRepository.create({
+      usuario: createUsuarioDto.usuario.trim(),
+      clave: process.env.DEFAULT_PASSWORD || 'default_password',
+      email: createUsuarioDto.email.trim(),
+      tipoUsuario: createUsuarioDto.tipoUsuario.trim(),
+    });
+    
 
     // Guardar el usuario en la base de datos
     const usuarioBd = await this.usuariosRepository.save(usuario);
