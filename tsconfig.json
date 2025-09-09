@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "commonjs",
+    "target": "es2017",
+    "strict": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./src",         // <--- aquí
+    "paths": {
+      "@/*": ["*"]             // <--- permite usar @/ para rutas desde src
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
